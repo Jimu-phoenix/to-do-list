@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="hero">
+        <h1>My To Do List</h1>
+        <p>click on event to delete</p>
+        <form id="add">
+            <label for="event">To do</label>
+            <input type="text" name="event" id="todo" placeholder="Add Event">
+            <button type="submit">Add</button>
+        </form>
+
+        <ul id="events">
+
+        </ul>
+    </main>
+</body>
+
+    <script>
+        let myevents = []
+        let myform = document.getElementById('add');
+        let eventsList = document.getElementById('events');
+
+        const deleteEvent = (word) => {
+            let index = myevents.indexOf(word)
+            if(index > -1){
+                myevents.splice(index, 1)
+            }
+            loadEvents()
+        }
+
+        const loadEvents = () => {
+
+            eventsList.innerHTML = "";
+
+            for (const el of myevents) {
+                let theEvent = document.createElement('li');
+                theEvent.setAttribute('class', 'event');
+                theEvent.innerText = el;
+                eventsList.appendChild(theEvent);
+
+                theEvent.addEventListener('click', (e) => {
+                    if(myevents.includes(e.target.innerText)){
+                        deleteEvent(e.target.innerText)
+                    }
+                })
+            }
+        }
+
+//      window.onload(loadEvents());
+
+        myform.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let eventToAdd = e.target.event.value;
+            myevents.push(eventToAdd);
+            loadEvents();
+            e.target.event.value = "";
+        })
+
+
+
+    </script>
+
+</html>
